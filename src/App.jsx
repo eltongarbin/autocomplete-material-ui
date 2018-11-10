@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { CssBaseline } from '@material-ui/core';
 import { Chance } from 'chance';
 
-import AutcompleteSelect from './AutcompleteSelect/AutcompleteSelect';
+import AutocompleteSelect from './AutocompleteSelect';
 
 export class App extends Component {
   state = {
@@ -12,12 +12,12 @@ export class App extends Component {
   };
 
   componentDidMount() {
-    const suggestions = [];
+    const options = [];
     for (let index = 0; index < 10000; index++) {
-      suggestions.push({ label: new Chance().name(), value: index });
+      options.push({ label: new Chance().name(), value: index });
     }
 
-    this.setState({ options: suggestions });
+    this.setState({ options });
   }
 
   handleChange = (name) => (value) => {
@@ -30,13 +30,13 @@ export class App extends Component {
     return (
       <div style={{ padding: 20 }}>
         <CssBaseline />
-        <AutcompleteSelect
+        <AutocompleteSelect
           options={this.state.options}
           value={this.state.single}
           onChange={this.handleChange('single')}
         />
         <div style={{ marginTop: 20 }} />
-        <AutcompleteSelect
+        <AutocompleteSelect
           textFieldProps={{
             label: 'Label',
             InputLabelProps: {
