@@ -1,52 +1,24 @@
 import React, { Component } from 'react';
-import { CssBaseline, Divider, Grid } from '@material-ui/core';
-import AutcompleteSelect from './AutcompleteSelect/AutcompleteSelect';
+import { CssBaseline } from '@material-ui/core';
+import { Chance } from 'chance';
 
-const suggestions = [
-  { label: 'Afghanistan' },
-  { label: 'Aland Islands' },
-  { label: 'Albania' },
-  { label: 'Algeria' },
-  { label: 'American Samoa' },
-  { label: 'Andorra' },
-  { label: 'Angola' },
-  { label: 'Anguilla' },
-  { label: 'Antarctica' },
-  { label: 'Antigua and Barbuda' },
-  { label: 'Argentina' },
-  { label: 'Armenia' },
-  { label: 'Aruba' },
-  { label: 'Australia' },
-  { label: 'Austria' },
-  { label: 'Azerbaijan' },
-  { label: 'Bahamas' },
-  { label: 'Bahrain' },
-  { label: 'Bangladesh' },
-  { label: 'Barbados' },
-  { label: 'Belarus' },
-  { label: 'Belgium' },
-  { label: 'Belize' },
-  { label: 'Benin' },
-  { label: 'Bermuda' },
-  { label: 'Bhutan' },
-  { label: 'Bolivia, Plurinational State of' },
-  { label: 'Bonaire, Sint Eustatius and Saba' },
-  { label: 'Bosnia and Herzegovina' },
-  { label: 'Botswana' },
-  { label: 'Bouvet Island' },
-  { label: 'Brazil' },
-  { label: 'British Indian Ocean Territory' },
-  { label: 'Brunei Darussalam' }
-].map((suggestion) => ({
-  value: suggestion.label,
-  label: suggestion.label
-}));
+import AutcompleteSelect from './AutcompleteSelect/AutcompleteSelect';
 
 export class App extends Component {
   state = {
     single: null,
-    multi: null
+    multi: null,
+    options: []
   };
+
+  componentDidMount() {
+    const suggestions = [];
+    for (let index = 0; index < 10000; index++) {
+      suggestions.push({ label: new Chance().name(), value: index });
+    }
+
+    this.setState({ options: suggestions });
+  }
 
   handleChange = (name) => (value) => {
     this.setState({
@@ -59,10 +31,9 @@ export class App extends Component {
       <div style={{ padding: 20 }}>
         <CssBaseline />
         <AutcompleteSelect
-          options={suggestions}
+          options={this.state.options}
           value={this.state.single}
           onChange={this.handleChange('single')}
-          placeholder="Search a country (start with a)"
         />
         <div style={{ marginTop: 20 }} />
         <AutcompleteSelect
@@ -70,13 +41,11 @@ export class App extends Component {
             label: 'Label',
             InputLabelProps: {
               shrink: true
-            },
-            multi: true
+            }
           }}
-          options={suggestions}
+          options={this.state.options}
           value={this.state.multi}
           onChange={this.handleChange('multi')}
-          placeholder="Select multiple countries"
           isMulti
         />
       </div>

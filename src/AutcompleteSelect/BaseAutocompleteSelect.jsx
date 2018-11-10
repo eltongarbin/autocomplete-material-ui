@@ -8,6 +8,8 @@ import {
 } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import classNames from 'classnames';
+import { FixedSizeList as List } from 'react-window';
+import { components } from 'react-select';
 
 export function NoOptionsMessage(props) {
   return (
@@ -117,5 +119,41 @@ export function Menu(props) {
     >
       {props.children}
     </Paper>
+  );
+}
+
+export function MenuList(props) {
+  const itemSize = 46;
+  const { options, children, maxHeight, getValue } = props;
+  const [value] = getValue();
+  const initialOffset = options.indexOf(value) * itemSize;
+
+  if (!Array.isArray(children) || children.length < 6) {
+    return (
+      <components.MenuList {...props}>{props.children}</components.MenuList>
+    );
+  }
+
+  return (
+    <List
+      height={maxHeight}
+      itemCount={children.length}
+      itemSize={itemSize}
+      width="100%"
+      useIsScrolling
+      initialScrollOffset={initialOffset}
+    >
+      {({ index, isScrolling, style }) => (
+        <div style={style}>
+          {isScrolling ? (
+            <MenuItem component="div" style={{ fontWeight: 400 }}>
+              Carregando...
+            </MenuItem>
+          ) : (
+            children[index]
+          )}
+        </div>
+      )}
+    </List>
   );
 }

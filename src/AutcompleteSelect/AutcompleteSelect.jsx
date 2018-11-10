@@ -6,6 +6,7 @@ import { emphasize } from '@material-ui/core/styles/colorManipulator';
 import {
   Control,
   Menu,
+  MenuList,
   MultiValue,
   NoOptionsMessage,
   Placeholder,
@@ -70,6 +71,7 @@ const styles = (theme) => ({
 const components = {
   Control,
   Menu,
+  MenuList,
   MultiValue,
   NoOptionsMessage,
   Option,
